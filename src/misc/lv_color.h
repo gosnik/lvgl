@@ -18,10 +18,6 @@ extern "C" {
 #include "lv_types.h"
 
 /*Error checking*/
-#if LV_COLOR_DEPTH == 24
-#error "LV_COLOR_DEPTH 24 is deprecated. Use LV_COLOR_DEPTH 32 instead (lv_conf.h)"
-#endif
-
 #if LV_COLOR_DEPTH != 32 && LV_COLOR_SCREEN_TRANSP != 0
 #error "LV_COLOR_SCREEN_TRANSP requires LV_COLOR_DEPTH == 32. Set it in lv_conf.h"
 #endif
@@ -64,6 +60,8 @@ enum {
 #define LV_COLOR_SIZE 8
 #elif LV_COLOR_DEPTH == 16
 #define LV_COLOR_SIZE 16
+#elif LV_COLOR_DEPTH == 24
+#define LV_COLOR_SIZE 24
 #elif LV_COLOR_DEPTH == 32
 #define LV_COLOR_SIZE 32
 #else
@@ -80,7 +78,7 @@ enum {
  * 192: round up from x.25
  * 254: round up*/
 #ifndef LV_COLOR_MIX_ROUND_OFS
-#if LV_COLOR_DEPTH == 32
+#if LV_COLOR_DEPTH == 32 || LV_COLOR_DEPTH == 24
 #define LV_COLOR_MIX_ROUND_OFS 0
 #else
 #define LV_COLOR_MIX_ROUND_OFS 128
@@ -184,6 +182,19 @@ enum {
 # define _LV_COLOR_ZERO_INITIALIZER32  {{0x00, 0x00, 0x00, 0x00}}
 # define LV_COLOR_MAKE32(r8, g8, b8) {{b8, g8, r8, 0xff}} /*Fix 0xff alpha*/
 
+# define LV_COLOR_SET_R24(c, v) (c).ch.red = (uint8_t)((v) & 0xFF)
+# define LV_COLOR_SET_G24(c, v) (c).ch.green = (uint8_t)((v) & 0xFF)
+# define LV_COLOR_SET_B24(c, v) (c).ch.blue = (uint8_t)((v) & 0xFF)
+# define LV_COLOR_SET_A24(c, v) do {} while(0)
+
+# define LV_COLOR_GET_R24(c) (c).ch.red
+# define LV_COLOR_GET_G24(c) (c).ch.green
+# define LV_COLOR_GET_B24(c) (c).ch.blue
+# define LV_COLOR_GET_A24(c) 0xFF
+
+# define _LV_COLOR_ZERO_INITIALIZER24  {{0x00, 0x00, 0x00}}
+# define LV_COLOR_MAKE24(r8, g8, b8) {{b8, g8, r8}}
+
 /*---------------------------------------
  * Macros for the current color depth
  * to set/get values of the color channels
@@ -250,6 +261,19 @@ typedef union {
     } ch;
     uint32_t full;
 } lv_color32_t;
+
+#pragma pack(push, 1)
+typedef struct { uint8_t byte[3]; } uint24_t;
+
+typedef union {
+    struct {
+        uint8_t blue;
+        uint8_t green;
+        uint8_t red;
+    } ch;
+    uint24_t full;
+} lv_color24_t;
+#pragma pack(pop)
 
 typedef LV_CONCAT3(uint, LV_COLOR_SIZE, _t) lv_color_int_t;
 typedef LV_CONCAT3(lv_color, LV_COLOR_DEPTH, _t) lv_color_t;
@@ -334,6 +358,13 @@ static inline uint8_t lv_color_to1(lv_color_t color)
     else {
         return 0;
     }
+#elif LV_COLOR_DEPTH == 24
+    if((LV_COLOR_GET_R(color) & 0x80) || (LV_COLOR_GET_G(color) & 0x80) || (LV_COLOR_GET_B(color) & 0x80)) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
 #elif LV_COLOR_DEPTH == 32
     if((LV_COLOR_GET_R(color) & 0x80) || (LV_COLOR_GET_G(color) & 0x80) || (LV_COLOR_GET_B(color) & 0x80)) {
         return 1;
@@ -359,6 +390,12 @@ static inline uint8_t lv_color_to8(lv_color_t color)
     LV_COLOR_SET_G8(ret, LV_COLOR_GET_G(color) >> 3); /*6 - 3  = 3*/
     LV_COLOR_SET_B8(ret, LV_COLOR_GET_B(color) >> 3); /*5 - 2  = 3*/
     return ret.full;
+#elif LV_COLOR_DEPTH == 24
+    lv_color8_t ret;
+    LV_COLOR_SET_R8(ret, LV_COLOR_GET_R(color) >> 5); /*8 - 3  = 5*/
+    LV_COLOR_SET_G8(ret, LV_COLOR_GET_G(color) >> 5); /*8 - 3  = 5*/
+    LV_COLOR_SET_B8(ret, LV_COLOR_GET_B(color) >> 6); /*8 - 2  = 6*/
+    return ret.full;
 #elif LV_COLOR_DEPTH == 32
     lv_color8_t ret;
     LV_COLOR_SET_R8(ret, LV_COLOR_GET_R(color) >> 5); /*8 - 3  = 5*/
@@ -383,6 +420,12 @@ static inline uint16_t lv_color_to16(lv_color_t color)
     return ret.full;
 #elif LV_COLOR_DEPTH == 16
     return color.full;
+#elif LV_COLOR_DEPTH == 24
+    lv_color16_t ret;
+    LV_COLOR_SET_R16(ret, LV_COLOR_GET_R(color) >> 3); /*8 - 5  = 3*/
+    LV_COLOR_SET_G16(ret, LV_COLOR_GET_G(color) >> 2); /*8 - 6  = 2*/
+    LV_COLOR_SET_B16(ret, LV_COLOR_GET_B(color) >> 3); /*8 - 5  = 3*/
+    return ret.full;
 #elif LV_COLOR_DEPTH == 32
     lv_color16_t ret;
     LV_COLOR_SET_R16(ret, LV_COLOR_GET_R(color) >> 3); /*8 - 5  = 3*/
@@ -440,6 +483,13 @@ static inline uint32_t lv_color_to32(lv_color_t color)
     LV_COLOR_SET_R32(ret, (LV_COLOR_GET_R(color) * 263 + 7) >> 5);
     LV_COLOR_SET_G32(ret, (LV_COLOR_GET_G(color) * 259 + 3) >> 6);
     LV_COLOR_SET_B32(ret, (LV_COLOR_GET_B(color) * 263 + 7) >> 5);
+    LV_COLOR_SET_A32(ret, 0xFF);
+    return ret.full;
+#elif LV_COLOR_DEPTH == 24
+    lv_color32_t ret;
+    LV_COLOR_SET_R32(ret, LV_COLOR_GET_R(color));
+    LV_COLOR_SET_G32(ret, LV_COLOR_GET_G(color));
+    LV_COLOR_SET_B32(ret, LV_COLOR_GET_B(color));
     LV_COLOR_SET_A32(ret, 0xFF);
     return ret.full;
 #elif LV_COLOR_DEPTH == 32
@@ -574,8 +624,14 @@ LV_ATTRIBUTE_FAST_MEM static inline void lv_color_mix_with_alpha(lv_color_t bg_c
         static lv_color_t res_color_saved = _LV_COLOR_ZERO_INITIALIZER;
         static lv_opa_t res_opa_saved = 0;
 
-        if(fg_opa != fg_opa_save || bg_opa != bg_opa_save || fg_color.full != fg_color_save.full ||
-           bg_color.full != bg_color_save.full) {
+        #if LV_COLOR_DEPTH == 24
+        if(fg_opa != fg_opa_save || bg_opa != bg_opa_save || 
+            0 != memcmp(&fg_color.full, &fg_color_save.full, sizeof(uint24_t)) || 
+            0 != memcmp(&bg_color.full, &bg_color_save.full, sizeof(uint24_t))) 
+        #else
+        if(fg_opa != fg_opa_save || bg_opa != bg_opa_save || fg_color.full != fg_color_save.full || bg_color.full != bg_color_save.full) 
+        #endif
+        {
             fg_opa_save        = fg_opa;
             bg_opa_save        = bg_opa;
             fg_color_save.full = fg_color.full;
