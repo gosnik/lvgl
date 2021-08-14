@@ -449,10 +449,12 @@ LV_ATTRIBUTE_FAST_MEM void lv_memset(void * dst, uint8_t v, size_t len)
  */
 LV_ATTRIBUTE_FAST_MEM void lv_memset_00(void * dst, size_t len)
 {
+    memset(dst, 0, len);
+    /*
     uint8_t * d8 = (uint8_t *)dst;
     uintptr_t d_align = (lv_uintptr_t) d8 & ALIGN_MASK;
 
-    /*Make the address aligned*/
+    //Make the address aligned
     if(d_align) {
         d_align = ALIGN_MASK + 1 - d_align;
         while(d_align && len) {
@@ -478,6 +480,7 @@ LV_ATTRIBUTE_FAST_MEM void lv_memset_00(void * dst, size_t len)
         SET8(0);
         len--;
     }
+    */
 }
 
 /**

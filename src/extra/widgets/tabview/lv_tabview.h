@@ -43,6 +43,8 @@ lv_obj_t * lv_tabview_create(lv_obj_t * parent, lv_dir_t tab_pos, lv_coord_t tab
 
 lv_obj_t * lv_tabview_add_tab(lv_obj_t * tv, const char * name);
 
+uint16_t lv_tabview_get_cnt(lv_obj_t * obj);
+
 lv_obj_t * lv_tabview_get_content(lv_obj_t * tv);
 
 lv_obj_t * lv_tabview_get_tab_btns(lv_obj_t * tv);

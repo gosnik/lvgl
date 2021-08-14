@@ -183,17 +183,17 @@ enum {
 # define LV_COLOR_MAKE32(r8, g8, b8) {{b8, g8, r8, 0xff}} /*Fix 0xff alpha*/
 
 # define LV_COLOR_SET_R24(c, v) (c).ch.red = (uint8_t)((v) & 0xFF)
-# define LV_COLOR_SET_G24(c, v) {(c).ch.green_h = (uint8_t)(((v) >> 4) & 0xF); (c).ch.green_l = (uint8_t)((v) & 0xF);}
+# define LV_COLOR_SET_G24(c, v) (c).ch.green = (uint8_t)((v) & 0xFF)
 # define LV_COLOR_SET_B24(c, v) (c).ch.blue = (uint8_t)((v) & 0xFF)
 # define LV_COLOR_SET_A24(c, v) do {} while(0)
 
 # define LV_COLOR_GET_R24(c) (c).ch.red
-# define LV_COLOR_GET_G24(c) (((c).ch.green_h << 4) + (c).ch.green_l)
+# define LV_COLOR_GET_G24(c) (c).ch.green
 # define LV_COLOR_GET_B24(c) (c).ch.blue
 # define LV_COLOR_GET_A24(c) 0xFF
 
 # define _LV_COLOR_ZERO_INITIALIZER24  {{0x00, 0x00, 0x00}}
-# define LV_COLOR_MAKE24(r8, g8, b8) {{(uint8_t)((g8 >> 4) & 0xFU), (uint8_t)((r8)), (uint8_t)((b8)), (uint8_t)((g8) & 0xFU)}}
+# define LV_COLOR_MAKE24(r8, g8, b8) {{(uint8_t)((b8)), (uint8_t)((g8)), (uint8_t)((r8))}}
 
 /*---------------------------------------
  * Macros for the current color depth
@@ -262,19 +262,18 @@ typedef union {
     uint32_t full;
 } lv_color32_t;
 
-//#pragma pack(push, 1)
-typedef struct __attribute__((__packed__)) { uint8_t byte[3]; } uint24_t;
+#pragma pack(push, 1)
+typedef struct { uint8_t byte[3]; } uint24_t;
 
-typedef union __attribute__((__packed__)) {
+typedef union {
     struct {
-        uint16_t green_h : 4;
-        uint16_t red : 8;
-        uint16_t blue : 8;
-        uint16_t green_l : 4;
+        uint8_t blue;
+        uint8_t green;
+        uint8_t red;
     } ch;
     uint24_t full;
 } lv_color24_t;
-//#pragma pack(pop)
+#pragma pack(pop)
 
 typedef LV_CONCAT3(uint, LV_COLOR_SIZE, _t) lv_color_int_t;
 typedef LV_CONCAT3(lv_color, LV_COLOR_DEPTH, _t) lv_color_t;

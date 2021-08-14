@@ -47,7 +47,7 @@ static void call_flush_cb(lv_disp_drv_t * drv, const lv_area_t * area, lv_color_
  *  STATIC VARIABLES
  **********************/
 static uint32_t px_num;
-static lv_disp_t * disp_refr; /*Display being refreshed*/
+IRAM_ATTR static lv_disp_t * disp_refr; /*Display being refreshed*/
 #if LV_USE_PERF_MONITOR
     static uint32_t fps_sum_cnt;
     static uint32_t fps_sum_all;
@@ -159,7 +159,7 @@ void _lv_inv_area(lv_disp_t * disp, const lv_area_t * area_p)
  * Get the display which is being refreshed
  * @return the display being refreshed
  */
-lv_disp_t * _lv_refr_get_disp_refreshing(void)
+IRAM_ATTR lv_disp_t * _lv_refr_get_disp_refreshing(void)
 {
     return disp_refr;
 }
