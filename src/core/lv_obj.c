@@ -207,7 +207,6 @@ lv_obj_t * lv_obj_create(lv_obj_t * parent)
 /*-----------------
  * Attribute set
  *----------------*/
-
 void lv_obj_add_flag(lv_obj_t * obj, lv_obj_flag_t f)
 {
     LV_ASSERT_OBJ(obj, MY_CLASS);
