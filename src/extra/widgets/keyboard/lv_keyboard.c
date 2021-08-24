@@ -78,15 +78,15 @@ static const lv_btnmatrix_ctrl_t default_kb_ctrl_spec_map[] = {
     LV_KEYBOARD_CTRL_BTN_FLAGS | 2, 1, LV_BTNMATRIX_CTRL_CHECKED | 2, 6, LV_BTNMATRIX_CTRL_CHECKED | 2, 1
 };
 
-static const char * const default_kb_map_num[] = {"1", "2", "3", LV_SYMBOL_KEYBOARD, "\n",
-                                                  "4", "5", "6", LV_SYMBOL_OK, "\n",
+static const char * const default_kb_map_num[] = {"1", "2", "3", LV_SYMBOL_OK, "\n",
+                                                  "4", "5", "6", LV_SYMBOL_KEYBOARD, "\n",
                                                   "7", "8", "9", LV_SYMBOL_BACKSPACE, "\n",
                                                   "+/-", "0", ".", LV_SYMBOL_LEFT, LV_SYMBOL_RIGHT, ""
                                                  };
 
 static const lv_btnmatrix_ctrl_t default_kb_ctrl_num_map[] = {
     1, 1, 1, LV_KEYBOARD_CTRL_BTN_FLAGS | 2,
-    1, 1, 1, LV_KEYBOARD_CTRL_BTN_FLAGS | 2,
+    1, 1, 1, LV_BTNMATRIX_CTRL_HIDDEN | 2,
     1, 1, 1, 2,
     1, 1, 1, 1, 1
 };

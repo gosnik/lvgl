@@ -780,14 +780,14 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
 #  ifdef CONFIG_LV_FONT_MONTSERRAT_22
 #    define LV_FONT_MONTSERRAT_22 CONFIG_LV_FONT_MONTSERRAT_22
 #  else
-#    define  LV_FONT_MONTSERRAT_22    0
+#    define  LV_FONT_MONTSERRAT_22    1
 #  endif
 #endif
 #ifndef LV_FONT_MONTSERRAT_24
 #  ifdef CONFIG_LV_FONT_MONTSERRAT_24
 #    define LV_FONT_MONTSERRAT_24 CONFIG_LV_FONT_MONTSERRAT_24
 #  else
-#    define  LV_FONT_MONTSERRAT_24    0
+#    define  LV_FONT_MONTSERRAT_24    1
 #  endif
 #endif
 #ifndef LV_FONT_MONTSERRAT_26
@@ -917,7 +917,7 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
 #  ifdef CONFIG_LV_FONT_UNSCII_16
 #    define LV_FONT_UNSCII_16 CONFIG_LV_FONT_UNSCII_16
 #  else
-#    define  LV_FONT_UNSCII_16       0
+#    define  LV_FONT_UNSCII_16       1
 #  endif
 #endif
 
