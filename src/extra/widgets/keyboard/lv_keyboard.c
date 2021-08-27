@@ -91,18 +91,47 @@ static const lv_btnmatrix_ctrl_t default_kb_ctrl_num_map[] = {
     1, 1, 1, 1, 1
 };
 
-static const char * * kb_map[5] = {
+// KEY entry
+static const char * const default_kb_map_key_lc[] = {
+    "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "\n",
+    "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "\n",
+    "a", "s", "d", "f", "g", "h", "j", "k", "l", "\n",
+    "z", "x", "c", "v", "b", "n", "m", LV_SYMBOL_BACKSPACE, "\n", //, ":" , "_", "-"
+    "ABC" LV_SYMBOL_UP, LV_SYMBOL_LEFT, " ", LV_SYMBOL_RIGHT, "" //, ",", "."
+                                                };
+
+static const char * const default_kb_map_key_uc[] = {
+    "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "\n",
+    "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "\n",
+    "a", "s", "d", "f", "g", "h", "j", "k", "l", "\n",
+    "z", "x", "c", "v", "b", "n", "m", LV_SYMBOL_BACKSPACE, "\n", //, ":" , "_", "-"
+    "abc" LV_SYMBOL_DOWN, LV_SYMBOL_LEFT, " ", LV_SYMBOL_RIGHT, "" //, ",", "."
+                                                };
+
+static const lv_btnmatrix_ctrl_t default_kb_ctrl_key_lcuc_map[] = {
+    4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+    4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+    3, 3, 3, 3, 3, 3, 3, 3, 3,
+    3, 3, 3, 3, 3, 3, 3, LV_BTNMATRIX_CTRL_CHECKED | 3,
+    LV_KEYBOARD_CTRL_BTN_FLAGS | 5, LV_BTNMATRIX_CTRL_CHECKED | 2, 6, LV_BTNMATRIX_CTRL_CHECKED | 2
+};
+
+static const char * * kb_map[7] = {
     (const char * *)default_kb_map_lc,
     (const char * *)default_kb_map_uc,
     (const char * *)default_kb_map_spec,
     (const char * *)default_kb_map_num,
+    (const char * *)default_kb_map_key_lc,
+    (const char * *)default_kb_map_key_uc,
     (const char * *)NULL,
 };
-static const lv_btnmatrix_ctrl_t * kb_ctrl[5] = {
+static const lv_btnmatrix_ctrl_t * kb_ctrl[7] = {
     default_kb_ctrl_lc_map,
     default_kb_ctrl_uc_map,
     default_kb_ctrl_spec_map,
     default_kb_ctrl_num_map,
+    default_kb_ctrl_key_lcuc_map,
+    default_kb_ctrl_key_lcuc_map,
     NULL,
 };
 
@@ -244,6 +273,18 @@ void lv_keyboard_def_event_cb(lv_event_t * e)
         keyboard->mode = LV_KEYBOARD_MODE_TEXT_UPPER;
         lv_btnmatrix_set_map(obj, kb_map[LV_KEYBOARD_MODE_TEXT_UPPER]);
         lv_btnmatrix_set_ctrl_map(obj, kb_ctrl[LV_KEYBOARD_MODE_TEXT_UPPER]);
+        return;
+    }
+    else if(strcmp(txt, "abc" LV_SYMBOL_DOWN) == 0) {
+        keyboard->mode = LV_KEYBOARD_MODE_KEY_LC;
+        lv_btnmatrix_set_map(obj, kb_map[LV_KEYBOARD_MODE_KEY_LC]);
+        lv_btnmatrix_set_ctrl_map(obj, kb_ctrl[LV_KEYBOARD_MODE_KEY_LC]);
+        return;
+    }
+    else if(strcmp(txt, "ABC" LV_SYMBOL_UP) == 0) {
+        keyboard->mode = LV_KEYBOARD_MODE_KEY_UC;
+        lv_btnmatrix_set_map(obj, kb_map[LV_KEYBOARD_MODE_KEY_UC]);
+        lv_btnmatrix_set_ctrl_map(obj, kb_ctrl[LV_KEYBOARD_MODE_KEY_UC]);
         return;
     }
     else if(strcmp(txt, "1#") == 0) {
