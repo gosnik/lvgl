@@ -114,12 +114,6 @@ lv_obj_t * lv_tabview_add_tab(lv_obj_t * obj, const char * name)
     return page;
 }
 
-uint16_t lv_tabview_get_cnt(lv_obj_t * obj)
-{
-    lv_tabview_t * tabview = (lv_tabview_t *)obj;
-    return tabview->tab_cnt;
-}
-
 void lv_tabview_set_act(lv_obj_t * obj, uint32_t id, lv_anim_enable_t anim_en)
 {
     lv_tabview_t * tabview = (lv_tabview_t *)obj;
