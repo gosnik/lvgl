@@ -60,7 +60,7 @@
 #  ifdef CONFIG_LV_COLOR_DEPTH
 #    define LV_COLOR_DEPTH CONFIG_LV_COLOR_DEPTH
 #  else
-#    define  LV_COLOR_DEPTH     32
+#    define  LV_COLOR_DEPTH     16
 #  endif
 #endif
 
@@ -69,7 +69,7 @@
 #  ifdef CONFIG_LV_COLOR_16_SWAP
 #    define LV_COLOR_16_SWAP CONFIG_LV_COLOR_16_SWAP
 #  else
-#    define  LV_COLOR_16_SWAP   0
+#    define  LV_COLOR_16_SWAP   1
 #  endif
 #endif
 
@@ -745,7 +745,7 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
 #  ifdef CONFIG_LV_FONT_MONTSERRAT_12
 #    define LV_FONT_MONTSERRAT_12 CONFIG_LV_FONT_MONTSERRAT_12
 #  else
-#    define  LV_FONT_MONTSERRAT_12    0
+#    define  LV_FONT_MONTSERRAT_12    1
 #  endif
 #endif
 #ifndef LV_FONT_MONTSERRAT_14
