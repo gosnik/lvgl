@@ -267,8 +267,8 @@ void lv_keyboard_def_event_cb(lv_event_t * e)
         }
 
         uint32_t btn_id = btnevent->btn;
-        if (btnevent->code != LV_EVENT_RELEASED) {LV_LOG_WARN("kb:ignored\n"); return; }
-        if(btn_id == LV_BTNMATRIX_BTN_NONE) {LV_LOG_WARN("kb:no id\n"); return; }
+        if (btnevent->code != LV_EVENT_RELEASED) return;
+        if(btn_id == LV_BTNMATRIX_BTN_NONE) return;
 
         bool scrolled = false;
         lv_obj_t * pobj = obj;
@@ -282,11 +282,7 @@ void lv_keyboard_def_event_cb(lv_event_t * e)
             }
         } while (pobj != NULL);
         
-        if (scrolled)
-        {
-            LV_LOG_WARN("KB:scroll\n");
-            return;
-        }
+        if (scrolled) return;
 
         const char * txt = lv_btnmatrix_get_btn_text(obj, lv_btnmatrix_get_selected_btn(obj));
         if(txt == NULL) return;
