@@ -404,7 +404,7 @@ static void indev_keypad_proc(lv_indev_t * i, lv_indev_data_t * data)
 
     /*Key press happened*/
     if(data->state == LV_INDEV_STATE_PRESSED && prev_state == LV_INDEV_STATE_RELEASED) {
-        LV_LOG_INFO("%d key is pressed", data->key);
+        //LV_LOG_INFO("%d key is pressed", data->key);
         i->proc.pr_timestamp = lv_tick_get();
 
         /*Simulate a press on the object if ENTER was pressed*/
@@ -488,7 +488,7 @@ static void indev_keypad_proc(lv_indev_t * i, lv_indev_data_t * data)
     }
     /*Release happened*/
     else if(data->state == LV_INDEV_STATE_RELEASED && prev_state == LV_INDEV_STATE_PRESSED) {
-        LV_LOG_INFO("%d key is released", data->key);
+        //LV_LOG_INFO("%d key is released", data->key);
         /*The user might clear the key when it was released. Always release the pressed key*/
         data->key = prev_key;
         if(data->key == LV_KEY_ENTER) {
@@ -550,7 +550,7 @@ static void indev_encoder_proc(lv_indev_t * i, lv_indev_data_t * data)
 
     /*Button press happened*/
     if(data->state == LV_INDEV_STATE_PRESSED && last_state == LV_INDEV_STATE_RELEASED) {
-        LV_LOG_INFO("pressed");
+        //LV_LOG_INFO("pressed");
 
         i->proc.pr_timestamp = lv_tick_get();
 
@@ -598,7 +598,7 @@ static void indev_encoder_proc(lv_indev_t * i, lv_indev_data_t * data)
                 if(editable_or_scrollable) {
                     /*Don't leave edit mode if there is only one object (nowhere to navigate)*/
                     if(lv_group_get_obj_count(g) > 1) {
-                        LV_LOG_INFO("toggling edit mode");
+                        //LV_LOG_INFO("toggling edit mode");
                         lv_group_set_editing(g, lv_group_get_editing(g) ? false : true); /*Toggle edit mode on long press*/
                         lv_obj_clear_state(indev_obj_act, LV_STATE_PRESSED);    /*Remove the pressed state manually*/
                     }
@@ -639,7 +639,7 @@ static void indev_encoder_proc(lv_indev_t * i, lv_indev_data_t * data)
     }
     /*Release happened*/
     else if(data->state == LV_INDEV_STATE_RELEASED && last_state == LV_INDEV_STATE_PRESSED) {
-        LV_LOG_INFO("released");
+        //LV_LOG_INFO("released");
 
         if(data->key == LV_KEY_ENTER) {
             bool editable_or_scrollable = lv_obj_is_editable(indev_obj_act) ||
@@ -679,7 +679,7 @@ static void indev_encoder_proc(lv_indev_t * i, lv_indev_data_t * data)
             /*If the focused object is editable and now in navigate mode then on enter switch edit
                mode*/
             else if(!i->proc.long_pr_sent) {
-                LV_LOG_INFO("entering edit mode");
+                //LV_LOG_INFO("entering edit mode");
                 lv_group_set_editing(g, true); /*Set edit mode*/
             }
         }
@@ -693,7 +693,7 @@ static void indev_encoder_proc(lv_indev_t * i, lv_indev_data_t * data)
     if(data->enc_diff != 0) {
         /*In edit mode send LEFT/RIGHT keys*/
         if(lv_group_get_editing(g)) {
-            LV_LOG_INFO("rotated by %+d (edit)", data->enc_diff);
+            //LV_LOG_INFO("rotated by %+d (edit)", data->enc_diff);
             int32_t s;
             if(data->enc_diff < 0) {
                 for(s = 0; s < -data->enc_diff; s++) lv_group_send_data(g, LV_KEY_LEFT);
@@ -704,7 +704,7 @@ static void indev_encoder_proc(lv_indev_t * i, lv_indev_data_t * data)
         }
         /*In navigate mode focus on the next/prev objects*/
         else {
-            LV_LOG_INFO("rotated by %+d (nav)", data->enc_diff);
+            //LV_LOG_INFO("rotated by %+d (nav)", data->enc_diff);
             int32_t s;
             if(data->enc_diff < 0) {
                 for(s = 0; s < -data->enc_diff; s++) lv_group_focus_prev(g);
@@ -736,10 +736,10 @@ static void indev_button_proc(lv_indev_t * i, lv_indev_data_t * data)
     static lv_indev_state_t prev_state = LV_INDEV_STATE_RELEASED;
     if(prev_state != data->state) {
         if(data->state == LV_INDEV_STATE_PRESSED) {
-            LV_LOG_INFO("button %d is pressed (x:%d y:%d)", data->btn_id, x, y);
+            //LV_LOG_INFO("button %d is pressed (x:%d y:%d)", data->btn_id, x, y);
         }
         else {
-            LV_LOG_INFO("button %d is released (x:%d y:%d)", data->btn_id, x, y);
+            //LV_LOG_INFO("button %d is released (x:%d y:%d)", data->btn_id, x, y);
         }
     }
 
@@ -773,7 +773,7 @@ static void indev_button_proc(lv_indev_t * i, lv_indev_data_t * data)
  */
 static void indev_proc_press(_lv_indev_proc_t * proc)
 {
-    LV_LOG_INFO("pressed at x:%d y:%d", proc->types.pointer.act_point.x, proc->types.pointer.act_point.y);
+    //LV_LOG_INFO("pressed at x:%d y:%d", proc->types.pointer.act_point.x, proc->types.pointer.act_point.y);
     indev_obj_act = proc->types.pointer.act_obj;
 
     if(proc->wait_until_release != 0) return;
@@ -921,7 +921,7 @@ static void indev_proc_release(_lv_indev_proc_t * proc)
 
     /*Forget the act obj and send a released Call the ancestor's event handler*/
     if(indev_obj_act) {
-        LV_LOG_INFO("released");
+        //LV_LOG_INFO("released");
 
         /*Send RELEASE Call the ancestor's event handler and event*/
         lv_event_send(indev_obj_act, LV_EVENT_RELEASED, indev_act);

@@ -384,7 +384,7 @@ static void lv_btnmatrix_event(const lv_obj_class_t * class_p, lv_event_t * e)
 
     /*Call the ancestor's event handler*/
     res = lv_obj_event_base(MY_CLASS, e);
-    if(res != LV_RES_OK) return;
+    if(res != LV_RES_OK) {LV_LOG_WARN("bmtx:skip \n"); return;}
 
     lv_event_code_t code = lv_event_get_code(e);
     lv_obj_t * obj = lv_event_get_target(e);
@@ -396,6 +396,22 @@ static void lv_btnmatrix_event(const lv_obj_class_t * class_p, lv_event_t * e)
     }
     else if(code == LV_EVENT_SIZE_CHANGED) {
         lv_btnmatrix_set_map(obj, btnm->map_p);
+    }
+    else if(code == LV_EVENT_SCROLL_BEGIN) {
+        LV_LOG_WARN("bmtx:ss\n");
+        lv_btnmatrix_event_t bevent;
+        bevent.btn = LV_BTNMATRIX_BTN_NONE;
+        bevent.code = code;
+        res        = lv_event_send(obj, LV_EVENT_VALUE_CHANGED, &bevent);
+        if(res != LV_RES_OK) return;
+    }
+    else if(code == LV_EVENT_SCROLL_END) {
+        LV_LOG_WARN("bmtx:se\n");
+        lv_btnmatrix_event_t bevent;
+        bevent.btn = LV_BTNMATRIX_BTN_NONE;
+        bevent.code = code;
+        res        = lv_event_send(obj, LV_EVENT_VALUE_CHANGED, &bevent);
+        if(res != LV_RES_OK) return;
     }
     else if(code == LV_EVENT_PRESSED) {
         void * param = lv_event_get_param(e);
@@ -421,8 +437,10 @@ static void lv_btnmatrix_event(const lv_obj_class_t * class_p, lv_event_t * e)
             if(button_is_click_trig(btnm->ctrl_bits[btnm->btn_id_sel]) == false &&
                button_is_inactive(btnm->ctrl_bits[btnm->btn_id_sel]) == false &&
                button_is_hidden(btnm->ctrl_bits[btnm->btn_id_sel]) == false) {
-                uint32_t b = btnm->btn_id_sel;
-                res        = lv_event_send(obj, LV_EVENT_VALUE_CHANGED, &b);
+                lv_btnmatrix_event_t bevent;
+                bevent.btn = btnm->btn_id_sel;
+                bevent.code = code;
+                res        = lv_event_send(obj, LV_EVENT_VALUE_CHANGED, &bevent);
                 if(res != LV_RES_OK) return;
             }
         }
@@ -452,8 +470,10 @@ static void lv_btnmatrix_event(const lv_obj_class_t * class_p, lv_event_t * e)
                 invalidate_button_area(obj, btn_pr);
                 /*Send VALUE_CHANGED for the newly pressed button*/
                 if(button_is_click_trig(btnm->ctrl_bits[btn_pr]) == false) {
-                    uint32_t b = btn_pr;
-                    res = lv_event_send(obj, LV_EVENT_VALUE_CHANGED, &b);
+                    lv_btnmatrix_event_t bevent;
+                    bevent.btn = btn_pr;
+                    bevent.code = code;
+                    res        = lv_event_send(obj, LV_EVENT_VALUE_CHANGED, &bevent);
                     if(res != LV_RES_OK) return;
                 }
             }
@@ -473,12 +493,14 @@ static void lv_btnmatrix_event(const lv_obj_class_t * class_p, lv_event_t * e)
                 if(btnm->one_check) make_one_button_checked(obj, btnm->btn_id_sel);
             }
 
-
-            if(button_is_click_trig(btnm->ctrl_bits[btnm->btn_id_sel]) == true &&
+            // button_is_click_trig(btnm->ctrl_bits[btnm->btn_id_sel]) == true &&
+            if(
                button_is_inactive(btnm->ctrl_bits[btnm->btn_id_sel]) == false &&
                button_is_hidden(btnm->ctrl_bits[btnm->btn_id_sel]) == false) {
-                uint32_t b = btnm->btn_id_sel;
-                res        = lv_event_send(obj, LV_EVENT_VALUE_CHANGED, &b);
+                lv_btnmatrix_event_t bevent;
+                bevent.btn = btnm->btn_id_sel;
+                bevent.code = code;
+                res        = lv_event_send(obj, LV_EVENT_VALUE_CHANGED, &bevent);
                 if(res != LV_RES_OK) return;
             }
         }
@@ -496,8 +518,10 @@ static void lv_btnmatrix_event(const lv_obj_class_t * class_p, lv_event_t * e)
             if(button_is_repeat_disabled(btnm->ctrl_bits[btnm->btn_id_sel]) == false &&
                button_is_inactive(btnm->ctrl_bits[btnm->btn_id_sel]) == false &&
                button_is_hidden(btnm->ctrl_bits[btnm->btn_id_sel]) == false) {
-                uint32_t b = btnm->btn_id_sel;
-                res        = lv_event_send(obj, LV_EVENT_VALUE_CHANGED, &b);
+                lv_btnmatrix_event_t bevent;
+                bevent.btn = btnm->btn_id_sel;
+                bevent.code = code;
+                res        = lv_event_send(obj, LV_EVENT_VALUE_CHANGED, &bevent);
                 if(res != LV_RES_OK) return;
             }
         }

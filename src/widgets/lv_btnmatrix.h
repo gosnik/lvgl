@@ -60,6 +60,11 @@ typedef struct {
     uint8_t one_check : 1;  /*Single button toggled at once*/
 } lv_btnmatrix_t;
 
+typedef struct {
+    uint32_t btn;
+    lv_event_code_t code;
+} lv_btnmatrix_event_t;
+
 extern const lv_obj_class_t lv_btnmatrix_class;
 
 /**
