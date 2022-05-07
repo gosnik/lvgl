@@ -41,54 +41,54 @@ const lv_obj_class_t lv_keyboard_class = {
 
 static const char * const default_kb_map_lc[] = {"q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "\n",
                                                  "a", "s", "d", "f", "g", "h", "j", "k", "l", "\n",
-                                                 "ABC", "z", "x", "c", "v", "b", "n", "m", LV_SYMBOL_BACKSPACE, "\n", //, ":" , "_", "-"
-                                                 "1#", LV_SYMBOL_LEFT, " ", LV_SYMBOL_RIGHT, LV_SYMBOL_NEW_LINE, "" //, ",", "."
+                                                 "ABC", "z", "x", "c", "v", "b", "n", "m", "\n", //, ":" , "_", "-"
+                                                 "1#", " ", "" //, ",", "."
                                                 };
 
 static const lv_btnmatrix_ctrl_t default_kb_ctrl_lc_map[] = {
     4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
     3, 3, 3, 3, 3, 3, 3, 3, 3,
-    LV_KEYBOARD_CTRL_BTN_FLAGS | 5, 3, 3, 3, 3, 3, 3, 3, LV_BTNMATRIX_CTRL_CHECKED | 3,
-    LV_KEYBOARD_CTRL_BTN_FLAGS | 2, LV_BTNMATRIX_CTRL_CHECKED | 2, 6, LV_BTNMATRIX_CTRL_CHECKED | 2, LV_BTNMATRIX_CTRL_CHECKED | 4
+    LV_KEYBOARD_CTRL_BTN_FLAGS | 5, 3, 3, 3, 3, 3, 3, 3,
+    LV_KEYBOARD_CTRL_BTN_FLAGS | 2, 6
 };
 
 static const char * const default_kb_map_uc[] = {"Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "\n",
                                                  "A", "S", "D", "F", "G", "H", "J", "K", "L", "\n",
-                                                 "abc", "Z", "X", "C", "V", "B", "N", "M", LV_SYMBOL_BACKSPACE, "\n", //, "_", "-", , ".", ",", ":"
-                                                 "1#", LV_SYMBOL_LEFT, " ", LV_SYMBOL_RIGHT, LV_SYMBOL_NEW_LINE, ""
+                                                 "abc", "Z", "X", "C", "V", "B", "N", "M", "\n", //, "_", "-", , ".", ",", ":"
+                                                 "1#", " ", ""
                                                 };
 
 static const lv_btnmatrix_ctrl_t default_kb_ctrl_uc_map[] = {
     4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
     3, 3, 3, 3, 3, 3, 3, 3, 3,
-    LV_KEYBOARD_CTRL_BTN_FLAGS | 5, 3, 3, 3, 3, 3, 3, 3, LV_BTNMATRIX_CTRL_CHECKED | 3,
-    LV_KEYBOARD_CTRL_BTN_FLAGS | 2, LV_BTNMATRIX_CTRL_CHECKED | 2, 6, LV_BTNMATRIX_CTRL_CHECKED | 2, LV_BTNMATRIX_CTRL_CHECKED | 4
+    LV_KEYBOARD_CTRL_BTN_FLAGS | 5, 3, 3, 3, 3, 3, 3, 3,
+    LV_KEYBOARD_CTRL_BTN_FLAGS | 2, 6
 };
 
 static const char * const default_kb_map_spec[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "\n",
                                                    "+", "-", "/", "*", "=", "%", "!", "?", "#", "<", ">", "\n",
-                                                   "$", "(", ")", "{", "}", "[", "]", ";", "\"", "'", LV_SYMBOL_BACKSPACE, "\n",
-                                                   "abc", "@", LV_SYMBOL_LEFT, " ", LV_SYMBOL_RIGHT, "\\", ""
+                                                   "$", "(", ")", "{", "}", "[", "]", ";", "\"", "'",  "@", "\n",
+                                                   "abc", " ", "\\", ""
                                                   };
 
 static const lv_btnmatrix_ctrl_t default_kb_ctrl_spec_map[] = {
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, LV_BTNMATRIX_CTRL_CHECKED | 2,
-    LV_KEYBOARD_CTRL_BTN_FLAGS | 2, 1, LV_BTNMATRIX_CTRL_CHECKED | 2, 6, LV_BTNMATRIX_CTRL_CHECKED | 2, 1
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    LV_KEYBOARD_CTRL_BTN_FLAGS | 2, 6, 1
 };
 
-static const char * const default_kb_map_num[] = {"1", "2", "3", LV_SYMBOL_OK, "\n",
-                                                  "4", "5", "6", LV_SYMBOL_KEYBOARD, "\n",
-                                                  "7", "8", "9", LV_SYMBOL_BACKSPACE, "\n",
-                                                  "+/-", "0", ".", LV_SYMBOL_LEFT, LV_SYMBOL_RIGHT, ""
+static const char * const default_kb_map_num[] = {"1", "2", "3", " ", "\n",
+                                                  "4", "5", "6", " ", "\n",
+                                                  "7", "8", "9", " ", "\n",
+                                                  "+/-", "0", ".", " ", ""
                                                  };
 
 static const lv_btnmatrix_ctrl_t default_kb_ctrl_num_map[] = {
-    1, 1, 1, LV_KEYBOARD_CTRL_BTN_FLAGS | 2,
     1, 1, 1, LV_BTNMATRIX_CTRL_HIDDEN | 2,
-    1, 1, 1, 2,
-    1, 1, 1, 1, 1
+    1, 1, 1, LV_BTNMATRIX_CTRL_HIDDEN | 2,
+    1, 1, 1, LV_BTNMATRIX_CTRL_HIDDEN | 2,
+    1, 1, 1, LV_BTNMATRIX_CTRL_HIDDEN | 2
 };
 
 // KEY entry
@@ -96,24 +96,24 @@ static const char * const default_kb_map_key_lc[] = {
     "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "\n",
     "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "\n",
     "a", "s", "d", "f", "g", "h", "j", "k", "l", "\n",
-    "z", "x", "c", "v", "b", "n", "m", LV_SYMBOL_BACKSPACE, "\n", //, ":" , "_", "-"
-    "ABC" LV_SYMBOL_UP, LV_SYMBOL_LEFT, " ", LV_SYMBOL_RIGHT, "" //, ",", "."
+    "z", "x", "c", "v", "b", "n", "m", "\n", //, ":" , "_", "-"
+    "ABC" LV_SYMBOL_UP, " ", "" //, ",", "."
                                                 };
 
 static const char * const default_kb_map_key_uc[] = {
     "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "\n",
     "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "\n",
     "a", "s", "d", "f", "g", "h", "j", "k", "l", "\n",
-    "z", "x", "c", "v", "b", "n", "m", LV_SYMBOL_BACKSPACE, "\n", //, ":" , "_", "-"
-    "abc" LV_SYMBOL_DOWN, LV_SYMBOL_LEFT, " ", LV_SYMBOL_RIGHT, "" //, ",", "."
+    "z", "x", "c", "v", "b", "n", "m", "\n", //, ":" , "_", "-"
+    "abc" LV_SYMBOL_DOWN, " ", "" //, ",", "."
                                                 };
 
 static const lv_btnmatrix_ctrl_t default_kb_ctrl_key_lcuc_map[] = {
     4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
     4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
     3, 3, 3, 3, 3, 3, 3, 3, 3,
-    3, 3, 3, 3, 3, 3, 3, LV_BTNMATRIX_CTRL_CHECKED | 3,
-    LV_KEYBOARD_CTRL_BTN_FLAGS | 5, LV_BTNMATRIX_CTRL_CHECKED | 2, 6, LV_BTNMATRIX_CTRL_CHECKED | 2
+    3, 3, 3, 3, 3, 3, 3,
+    LV_KEYBOARD_CTRL_BTN_FLAGS | 5, 6
 };
 
 static const char * * kb_map[7] = {
