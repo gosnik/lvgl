@@ -78,17 +78,27 @@ static const lv_btnmatrix_ctrl_t default_kb_ctrl_spec_map[] = {
     LV_KEYBOARD_CTRL_BTN_FLAGS | 2, 6, 1
 };
 
-static const char * const default_kb_map_num[] = {"1", "2", "3", " ", "\n",
-                                                  "4", "5", "6", " ", "\n",
-                                                  "7", "8", "9", " ", "\n",
-                                                  "+/-", "0", ".", " ", ""
+static const char * const default_kb_map_num[] = {"1", "2", "3", ".",   " ", "\n",
+                                                  "4", "5", "6", "+/-", " ", "\n",
+                                                  "7", "8", "9", "0",   " ", "\n",
+                                                  " ", "\n",
+                                                  " ", ""
                                                  };
 
 static const lv_btnmatrix_ctrl_t default_kb_ctrl_num_map[] = {
-    1, 1, 1, LV_BTNMATRIX_CTRL_HIDDEN | 2,
-    1, 1, 1, LV_BTNMATRIX_CTRL_HIDDEN | 2,
-    1, 1, 1, LV_BTNMATRIX_CTRL_HIDDEN | 2,
-    1, 1, 1, LV_BTNMATRIX_CTRL_HIDDEN | 2
+    1, 1, 1, 1, LV_BTNMATRIX_CTRL_HIDDEN | 3,
+    1, 1, 1, 1, LV_BTNMATRIX_CTRL_HIDDEN | 3,
+    1, 1, 1, 1, LV_BTNMATRIX_CTRL_HIDDEN | 3,
+    LV_BTNMATRIX_CTRL_HIDDEN | 2,
+    LV_BTNMATRIX_CTRL_HIDDEN | 2
+};
+
+static const lv_btnmatrix_ctrl_t default_kb_ctrl_pin_map[] = {
+    1, 1, 1, LV_BTNMATRIX_CTRL_HIDDEN | 1, LV_BTNMATRIX_CTRL_HIDDEN | 3,
+    1, 1, 1, LV_BTNMATRIX_CTRL_HIDDEN | 1, LV_BTNMATRIX_CTRL_HIDDEN | 3,
+    1, 1, 1, 1, LV_BTNMATRIX_CTRL_HIDDEN | 3,
+    LV_BTNMATRIX_CTRL_HIDDEN | 2,
+    LV_BTNMATRIX_CTRL_HIDDEN | 2
 };
 
 // KEY entry
@@ -121,6 +131,7 @@ static const char * * kb_map[7] = {
     (const char * *)default_kb_map_uc,
     (const char * *)default_kb_map_spec,
     (const char * *)default_kb_map_num,
+    (const char * *)default_kb_map_num,
     (const char * *)default_kb_map_key_lc,
     (const char * *)default_kb_map_key_uc,
     (const char * *)NULL,
@@ -130,6 +141,7 @@ static const lv_btnmatrix_ctrl_t * kb_ctrl[7] = {
     default_kb_ctrl_uc_map,
     default_kb_ctrl_spec_map,
     default_kb_ctrl_num_map,
+    default_kb_ctrl_pin_map,
     default_kb_ctrl_key_lcuc_map,
     default_kb_ctrl_key_lcuc_map,
     NULL,
